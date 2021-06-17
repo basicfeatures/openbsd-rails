@@ -1,0 +1,21 @@
+$ORIGIN myapp2.com.
+$TTL 24h
+
+@ 1h IN SOA ns1.myapp2.com. admin.example.com. (
+  2021052101 ; Serial YYYYMMDDnn
+  1h         ; Refresh
+  15m        ; Retry
+  1w         ; Expire
+  3m         ; Minimum TTL
+)
+
+@ IN NS ns1.myapp2.com.
+@ IN NS ns2.myapp2.com.
+
+www IN CNAME @
+
+@ IN A XX.XXX.XXX.XX
+
+; https://letsencrypt.org/docs/caa/
+myapp2.com. 3m IN CAA 0 issue "letsencrypt.org"
+
