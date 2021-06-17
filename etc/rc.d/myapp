@@ -1,0 +1,37 @@
+#!/bin/ksh
+
+# Rails/Puma startup script
+# https://cvsweb.openbsd.org/cgi-bin/cvsweb/ports/infrastructure/templates/rc.template
+
+restricted_user="apps"
+app="myapp"
+port="12345"
+
+# Get full path to helper
+helper_file="$0"
+helper_full_path=$(dirname "$0")
+daemon="$helper_full_path/_rails_helper"
+
+# Run in background
+rc_bg=YES
+
+. /etc/rc.d/rc.subr
+
+rc_start() {
+  ${rcexec} "${daemon} start ${restricted_user} ${app} ${port}"
+}
+
+rc_check() {
+  ${rcexec} "${daemon} status ${restricted_user} ${app} ${port}"
+}
+
+rc_restart() {
+  ${rcexec} "${daemon} phased-restart ${restricted_user} ${app} ${port}"
+}
+
+rc_stop() {
+  ${rcexec} "${daemon} stop ${restricted_user} ${app} ${port}"
+}
+
+rc_cmd "$1"
+

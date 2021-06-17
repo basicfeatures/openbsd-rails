@@ -1,0 +1,16 @@
+#!/bin/ksh
+
+# Helper to wrap Puma inside rcctl(8)
+
+command=$1
+restricted_user=$2
+app=$3
+port=$4
+
+cd /home/"$restricted_user"/"$app" && \
+doas -u "$restricted_user" env \
+PORT="$port" \
+RAILS_ENV=production \
+GEM_HOME=/home/"$restricted_user"/.gem \
+bundle exec pumactl "$command"
+
